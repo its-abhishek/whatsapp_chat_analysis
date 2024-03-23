@@ -65,3 +65,10 @@ if upload_file is not None:
 
            with col2:
                st.dataframe(new_df)
+        
+        # WordCloud
+        st.title("Word Cloud")
+        df_wc = helper.create_wordcloud(selected_user,df)
+        fig, ax = plt.subplots()
+        ax.imshow(df_wc)
+        st.pyplot(fig)
