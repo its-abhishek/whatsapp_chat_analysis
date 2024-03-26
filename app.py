@@ -11,7 +11,7 @@ if upload_file is not None:
     data = bytes_data.decode('utf-8')
     df = preprocessor.preprocess(data)
 
-    st.dataframe(df)
+    # st.dataframe(df)
 
     # fetch unique user
     # Check if 'group_notification' exists in the 'user' column
@@ -30,10 +30,11 @@ if upload_file is not None:
 
     if st.sidebar.button("Show Analysis"):
 
+        # Start Area
         num_messages, words, num_media_messages, num_links = helper.fetch_stats(selected_user, df)
-
+        st.title("Top Statistics")
         col1, col2, col3, col4 = st.columns(4)
-
+        
         with col1:
             st.header("Total Messages")
             st.title(num_messages)
@@ -49,6 +50,22 @@ if upload_file is not None:
         with col4:
             st.header("Links Shared")
             st.title(num_links)
+
+        # montly timeline
+        st.title("Monthly Timeline")
+        timeline = helper.monthly_timeline(selected_user, df)
+        fig,ax = plt.subplots()
+        ax.plot(timeline['time'], timeline['message'], color = 'green')
+        plt.xticks(rotation='vertical')
+        st.pyplot(fig)
+
+        #  daily timeline
+        st.title("Daily Timeline")
+        timeline = helper.daily_timeline(selected_user, df)
+        fig,ax = plt.subplots()
+        ax.plot(timeline['only_date'], timeline['message'], color = 'black')
+        plt.xticks(rotation='vertical')
+        st.pyplot(fig)
 
         # finding the busiest users in the group(Group level)
         if selected_user == 'Overall':
