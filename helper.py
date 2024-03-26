@@ -44,7 +44,7 @@ def create_wordcloud(selected_user, df):
 
 def most_common_words(selected_user, df):
     # Read stop words from file
-    with open('english-stop-words-large.txt', 'r') as f:
+    with open('hinglish.txt', 'r') as f:
         stop_words = f.read().splitlines()
 
     # Filter DataFrame based on selected user
