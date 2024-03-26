@@ -34,11 +34,27 @@ def most_busy_user(df):
     return x, df
 
 def create_wordcloud(selected_user, df):
+    
+    with open('hinglish.txt', 'r') as f:
+        stop_words = f.read().splitlines()
 
+    # Filter DataFrame based on selected user
     if selected_user != 'Overall':
         df = df[df['user'] == selected_user]
+
+    # Filter out certain messages
+    temp = df[(df['user'] != 'group_notification') & (df['message'] != '\u200Eimage omitted\n')]
+
+    def remove_stop_wprds(message):
+        y = []
+
+        for word in message.lower().split():
+            if word not in stop_words:
+                y.append(word)
+        return " ".join(y)
     
     wc = WordCloud(width=500,height=500,min_font_size=10,background_color='white')
+    temp['message'] = temp['message'].apply(remove_stop_wprds)
     df_wc = wc.generate(df['message'].str.cat(sep=""))
     return df_wc
 
@@ -52,7 +68,7 @@ def most_common_words(selected_user, df):
         df = df[df['user'] == selected_user]
 
     # Filter out certain messages
-    temp = df[(df['user'] != 'group_notification') & (df['message'] != '\u200Eimage omitted')]
+    temp = df[(df['user'] != 'group_notification') & (df['message'] != '\u200Eimage omitted\n')]
 
     words = []
     # Iterate over messages and extract words
