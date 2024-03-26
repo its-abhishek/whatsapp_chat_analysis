@@ -83,3 +83,16 @@ if upload_file is not None:
 
         st.title('Most common words')
         st.pyplot(fig)
+
+        # emoji analysis
+        emoji_df = helper.emoji_helper(selected_user, df)
+        st.title('Emoji Analysis')
+
+        col1, col2 = st.columns(2)
+
+        with col1:
+            st.dataframe(emoji_df)
+        with col2:
+            fig,ax = plt.subplots()
+            ax.pie(emoji_df[1],labels=emoji_df[0],autopct="%0.2f")
+            st.pyplot(fig)
