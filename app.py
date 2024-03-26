@@ -67,6 +67,24 @@ if upload_file is not None:
         plt.xticks(rotation='vertical')
         st.pyplot(fig)
 
+        # activity map
+        st.title('Actvity Map')
+        col1, col2 = st.columns(2)
+
+        with col1:
+            st.header("Most Busy Day")
+            busy_day = helper.week_activity_map(selected_user, df)
+            fig,ax = plt.subplots()
+            ax.bar(busy_day.index, busy_day.values)
+            st.pyplot(fig)
+
+        with col2:
+            st.header("Most Busy Month")
+            busy_day = helper.month_activity_map(selected_user, df)
+            fig,ax = plt.subplots()
+            ax.bar(busy_day.index, busy_day.values, color = 'orange')
+            st.pyplot(fig)
+
         # finding the busiest users in the group(Group level)
         if selected_user == 'Overall':
            st.title('Most Bussy Users')
