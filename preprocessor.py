@@ -16,7 +16,7 @@ def preprocess(data):
     dates
 
     df = pd.DataFrame({'message_date':dates,'user_message':messages})
-    df['message_date'] = pd.to_datetime(df['message_date'], format='%y/%m/%d, %I:%M:%S %p')
+    df['message_date'] = pd.to_datetime(df['message_date'], format='%d/%m/%y, %I:%M:%S %p')
 
     df.rename(columns={'message_date': 'date'}, inplace=True)
 
